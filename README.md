@@ -24,7 +24,7 @@ Each objective is accompanied by visualizations to support insights:
 1. **Top 10 Crime-Prone States**  
    👉 Identifies states with the highest number of total crimes.
 
-2. **Distribution of Murders by State**  
+2. **Crime region wise**  
    👉 Shows how murder cases vary across different states.
 
 3. **Trend of Violent Crimes**  
