@@ -7,7 +7,7 @@ file_name = 'main.csv'
 crime_data = pd.read_csv(file_name)
 crime_data.fillna(0, inplace=True)
 
-# 📊 Initial Exploratory Data Analysis
+#Initial Exploratory Data Analysis
 print("\n INITIAL EDA STARTS HERE")
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 # First few rows
@@ -33,17 +33,20 @@ print(" EDA Completed\n")
 
 # Predefined columns for different categories
 violent_types = ['MURDER', 'ATTEMPT TO MURDER', 'RAPE', 'RIOTS', 'HURT/GREVIOUS HURT']
+
 women_related = ['RAPE', 'DOWRY DEATHS', 'CRUELTY BY HUSBAND OR HIS RELATIVES',
                  'ASSAULT ON WOMEN WITH INTENT TO OUTRAGE HER MODESTY',
                  'INSULT TO MODESTY OF WOMEN']
+
 property_related = ['THEFT', 'AUTO THEFT', 'BURGLARY', 'ROBBERY', 'DACOITY']
+
 focused_crimes = ['MURDER', 'ATTEMPT TO MURDER', 'RAPE', 'ROBBERY', 'BURGLARY',
                   'THEFT', 'RIOTS', 'DOWRY DEATHS', 'AUTO THEFT']
 
 def show_menu():
     print("\n What would you like to explore?")
     print("1.  View Predefined Crime Insights")
-    print("2.  Perform Custom EDA")
+    print("2.  Create Your own Crime Insight")
     print("3.  Exit")
     return input("Enter your choice (1/2/3): ")
 
@@ -66,10 +69,11 @@ def pick_analysis_goal():
     return input("Enter your objective number (1-6): ")
 
 def plot_insights(option):
+    #Barplot 
     if option == '1':
         crime_data['Total_Reported'] = crime_data.iloc[:, 3:].sum(axis=1)
         top_states = crime_data.groupby('STATE/UT')['Total_Reported'].sum().nlargest(10)
-
+        print(top_states)
         plt.figure(figsize=(12,6))
         sns.barplot(x=top_states.values, y=top_states.index, palette='Reds_d')
         plt.title('Top 10 States with Highest Number of IPC Crimes')
@@ -77,20 +81,22 @@ def plot_insights(option):
         plt.ylabel('State/UT')
         plt.tight_layout()
         plt.show()
-
+    #Line Plot
     elif option == '2':
-        yearwise_violent = crime_data.groupby('Region')[violent_types].sum()
+        region_violent = crime_data.groupby('Region')[violent_types].sum()
+        print(region_violent)
         plt.figure(figsize=(10,6))
+        
         for category in violent_types:
-            plt.plot(yearwise_violent.index, yearwise_violent[category], label=category)
+            plt.plot(region_violent.index, region_violent[category], label=category)
         plt.title('Trend of Violent Crimes Over Region')
-        plt.xlabel('Year')
+        plt.xlabel('Region')
         plt.ylabel('Number of Cases')
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
         plt.show()
-
+    #Barplot
     elif option == '3':
         statewise_women_crime = crime_data.groupby('STATE/UT')[women_related].sum().sum(axis=1).nlargest(10)
         plt.figure(figsize=(12,6))
@@ -100,18 +106,19 @@ def plot_insights(option):
         plt.ylabel('State')
         plt.tight_layout()
         plt.show()
-
+    #Grouped Bar 
     elif option == '4':
         kidnapping_stats = crime_data.groupby('STATE/UT')[
             ['KIDNAPPING AND ABDUCTION OF WOMEN AND GIRLS', 'KIDNAPPING AND ABDUCTION OF OTHERS']
         ].sum().nlargest(10, 'KIDNAPPING AND ABDUCTION OF WOMEN AND GIRLS')
-        kidnapping_stats.plot(kind='bar', figsize=(12,6), stacked=False, colormap='coolwarm')
+        plt.figure(figsize=(12,6))
+        kidnapping_stats.plot.bar(stacked=False, colormap='coolwarm')
         plt.title('Kidnapping by Victim Type (Top 10 States)')
         plt.xlabel('State')
         plt.ylabel('Number of Cases')
         plt.tight_layout()
         plt.show()
-
+    #Pie Chart 
     elif option == '5':
         prop_crime_total = crime_data[property_related].sum()
         plt.figure(figsize=(8,8))
@@ -119,7 +126,7 @@ def plot_insights(option):
         plt.title('Share of Property Crimes')
         plt.tight_layout()
         plt.show()
-
+    #Heatmap 
     elif option == '6':
         plt.figure(figsize=(12,8))
         sns.heatmap(crime_data[focused_crimes].corr(), annot=True, cmap='coolwarm', linewidths=0.5)
