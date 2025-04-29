@@ -3,7 +3,7 @@ crime analysis in India using the IPC 2013 dataset. It captures your EDA, visual
 # 🕵️‍♂️ CrimeScope: District-Level Crime Analysis in India (2013)
 
 A data-driven dashboard to visualize and understand crime patterns across Indian districts using the **2013 IPC (Indian Penal Code)** crime dataset.  
-This project applies **EDA (Exploratory Data Analysis)** and insightful **data visualizations** to uncover trends and correlations using Python libraries like Pandas, Seaborn, and Matplotlib.
+This project applies **EDA (Exploratory Data Analysis)**   and insightful **data visualizations** to uncover trends and correlations using Python libraries like Pandas, Seaborn, and Matplotlib.
 
 --
 ## 📁 Dataset Description
